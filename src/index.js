@@ -100,6 +100,34 @@ const questions = [
   },
 ];
 
+const constructTitle = (projectTitle) => {
+  return ` ${projectTitle}`;
+};
+const constructDesc = (projectDesc) => {
+  return `## Description \n ${projectDesc}`;
+};
+const constructInstall = (hasInstallScript) => {
+  return `## Installation \n ${hasInstallScript}`;
+};
+const constructDirections = (hasDirections) => {
+  return `## Directions \n ${hasDirections}`;
+};
+const constructTest = (hasTests) => {
+  return `## Tests \n ${hasTests}`;
+};
+const constructLicense = (license) => {
+  return `## License \n ${license}`;
+};
+const constructUserName = (gitHubUserName) => {
+  return `#### GitHub User Name: ${gitHubUserName}`;
+};
+const constructEmail = (email) => {
+  return `#### Email: ${email}`;
+};
+const constructContribution = (contribution) => {
+  return `## Contribution \n ${contribution}`;
+};
+
 const readMeData = (projectAnswer) => {
   const {
     projectTitle,
@@ -120,14 +148,15 @@ const readMeData = (projectAnswer) => {
   ${constructLicense(license)}
   ${constructUserName(gitHubUserName)}
   ${constructEmail(email)}
-  ${constructContribution(contribution)}
-  `;
+  ${constructContribution(contribution)}`;
 };
 
 const start = async () => {
   const projectAnswer = await inquirer.prompt(questions);
   console.log(projectAnswer);
-  writeToFile("generated_readme.md", generatedReadme);
+  const generateReadme = readMeData(projectAnswer);
+  console.log(generateReadme);
+  writeToFile("generated_readme.md", generateReadme);
 };
 
 const writeToFile = (filePath, data) => {
