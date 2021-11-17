@@ -20,16 +20,40 @@ const questions = [
     default: false,
   },
   {
+    type: "input",
+    name: "hasInstallScript",
+    message: "What is the installation script?",
+    when(answers) {
+      return answers.installScript;
+    },
+  },
+  {
     type: "confirm",
     name: "projectDirections",
     message: "Do you have directions for the use of this project?",
     default: false,
   },
   {
+    type: "input",
+    name: "hasDirections",
+    message: "What are the directions? or How would I use your project?",
+    when(answers) {
+      return answers.projectDirections;
+    },
+  },
+  {
     type: "confirm",
     name: "projectTest",
     message: "Do you have tests for this project?",
     default: false,
+  },
+  {
+    type: "input",
+    name: "hasTests",
+    message: "How do I test the application?",
+    when(answers) {
+      return answers.projectTest;
+    },
   },
   {
     type: "list",
@@ -75,47 +99,9 @@ const questions = [
   },
 ];
 
-const installScriptQs = [
-  {
-    type: "input",
-    name: "hasInstallScript",
-    message: "What is the installation script?",
-  },
-];
-const projectDirectionQs = [
-  {
-    type: "input",
-    name: "hasDirections",
-    message: "What are the directions? or How would I use your project?",
-  },
-];
-const projectTestQs = [
-  {
-    type: "input",
-    name: "hasTests",
-    message: "How do I test the application?",
-  },
-];
-
 const start = async () => {
   const projectAnswer = await inquirer.prompt(questions);
   console.log(projectAnswer);
-
-  if (projectAnswer.installScript) {
-    //   ask installation script question if true
-    const installScriptAns = await inquirer.prompt(installScriptQs);
-    console.log(installScriptAns);
-  }
-  if (projectAnswer.projectDirections) {
-    //   ask installation script question if true
-    const projectDirectionAns = await inquirer.prompt(projectDirectionQs);
-    console.log(projectDirectionAns);
-  }
-  if (projectAnswer.projectTest) {
-    //   ask installation script question if true
-    const projectTestAns = await inquirer.prompt(projectTestQs);
-    console.log(projectTestAns);
-  }
 };
 
 start();
