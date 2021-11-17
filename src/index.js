@@ -1,5 +1,6 @@
 // import inquirer
 const inquirer = require("inquirer");
+const fs = require("fs");
 
 //questions
 const questions = [
@@ -99,9 +100,42 @@ const questions = [
   },
 ];
 
+const readMeData = (projectAnswer) => {
+  const {
+    projectTitle,
+    projectDesc,
+    hasInstallScript,
+    hasDirections,
+    hasTests,
+    license,
+    gitHubUserName,
+    email,
+    contribution,
+  } = projectAnswer;
+  return `${constructTitle(projectTitle)}
+  ${constructDesc(projectDesc)}
+  ${constructInstall(hasInstallScript)}
+  ${constructDirections(hasDirections)}
+  ${constructTest(hasTests)}
+  ${constructLicense(license)}
+  ${constructUserName(gitHubUserName)}
+  ${constructEmail(email)}
+  ${constructContribution(contribution)}
+  `;
+};
+
 const start = async () => {
   const projectAnswer = await inquirer.prompt(questions);
   console.log(projectAnswer);
+  writeToFile("generated_readme.md", generatedReadme);
+};
+
+const writeToFile = (filePath, data) => {
+  try {
+    fs.writeFileSync(filePath, data);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
 start();
