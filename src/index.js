@@ -243,10 +243,8 @@ const start = async () => {
       message: "How do I test the application?",
     });
   }
-  console.log(tests);
-
+  projectAnswer.tests = tests;
   const generateReadme = readMeData(projectAnswer);
-
   writeToFile("generated_readme.md", generateReadme);
 };
 
