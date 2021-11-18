@@ -1,6 +1,6 @@
 // import inquirer
 const inquirer = require("inquirer");
-const util = require("./util");
+const { writeToFile } = require("./util");
 
 //questions
 const questions = [
@@ -24,7 +24,7 @@ const questions = [
     type: "input",
     name: "hasInstallScript",
     message: "What is the installation script?",
-    when(answers) {
+    when: (answers) => {
       return answers.installScript;
     },
   },
@@ -38,7 +38,7 @@ const questions = [
     type: "input",
     name: "hasDirections",
     message: "What are the directions? or How would I use your project?",
-    when(answers) {
+    when: (answers) => {
       return answers.projectDirections;
     },
   },
@@ -52,7 +52,7 @@ const questions = [
     type: "input",
     name: "hasTests",
     message: "How do I test the application?",
-    when(answers) {
+    when: (answers) => {
       return answers.projectTest;
     },
   },
@@ -100,10 +100,32 @@ const questions = [
   },
 ];
 
+const getOtherContents = ({ hasInstallScript, hasDirections, hasTests }) => {
+  const contents = [];
+  if (hasInstallScript) contents.push("- [Installation](#installation)");
+  if (hasDirections) contents.push("- [Usage](#usage)");
+  if (hasTests) contents.push("- [Tests](#tests)");
+  return contents;
+};
+
 // constructing the dynamic README.md
 // project title
 const constructTitle = (projectTitle) => {
   return `# ${projectTitle}`;
+};
+
+const generateTableOfContents = (hasInstallScript, hasDirections, hasTests) => {
+  const contents = [
+    "- [Description](#description)",
+    ...getOtherContents(hasInstallScript, hasDirections, hasTests),
+    "- [Contributing](#contributing)",
+    "- [License](#license)",
+    "- [Question](#question)",
+  ];
+
+  return `## Table of Contents\n
+${contents.join("\n")}
+`;
 };
 
 // Table of Contents
@@ -181,6 +203,7 @@ const readMeData = (projectAnswer) => {
     contribution,
   } = projectAnswer;
   return `${constructTitle(projectTitle)}
+  ${generateTableOfContents({ hasInstallScript, hasDirections, hasTests })}
   ${constructDesc(projectDesc)}
   ${constructInstall(hasInstallScript)}
   ${constructDirections(hasDirections)}
@@ -196,7 +219,7 @@ const start = async () => {
   console.log(projectAnswer);
   const generateReadme = readMeData(projectAnswer);
   console.log(generateReadme);
-  util.writeToFile("generated_readme.md", generateReadme);
+  writeToFile("generated_readme.md", generateReadme);
 };
 
 start();

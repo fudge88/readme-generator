@@ -1,38 +1,36 @@
-# trhththtrthrthrhrtht
+# my project
+  ## Table of Contents
 
-## Description
+- [Description](#description)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Question](#question)
 
-trghrthrthtgtgthg
-
-## Installation
-
-Follow these steps for installation:
-
-```
+  ## Description
+a small project
+  ## Installation
+  Follow these steps for installation: 
+  ```
+  undefined
+  ```
+  ## Directions
+  To use this application you:
+  ```
+  not yet written;
+  ```
+  ## Tests
 undefined
-```
+  ## License
 
-## Directions
+  [MIT](https://img.shields.io/static/v1?label=academic&message=Licence&color=<COLOR>)
 
-To use this application you:
+  This project is licensed under the terms of the academic license
+  ## Contribution
+  All contributions are welcomed, you can contribute to this repository by yes
+  ## Questions
 
-```
-egggertgegegerererg;
-```
+  If you have any questions about this project, or would like further information please contact me via:
+  Email: email
 
-## Tests
-
-undefined
-
-## License
-
-![MIT](https://img.shields.io/static/v1?label=mit&message=Licence&color=<COLOR>)This project is licensed under the terms of the mit license
-
-## Questions
-
-Email: egertg
-GitHub User Name: etgege
-
-## Contribution
-
-All contributions are welcomed, you can contribute to this repository by etgghghgggrtgrt
+  GitHub User Name: username
