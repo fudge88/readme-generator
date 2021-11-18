@@ -42,20 +42,20 @@ const questions = [
       return answers.projectDirections;
     },
   },
-  {
-    type: "confirm",
-    name: "projectTest",
-    message: "Do you have tests for this project?",
-    default: false,
-  },
-  {
-    type: "input",
-    name: "hasTests",
-    message: "How do I test the application?",
-    when: (answers) => {
-      return answers.projectTest;
-    },
-  },
+  // {
+  //   type: "confirm",
+  //   name: "projectTest",
+  //   message: "Do you have tests for this project?",
+  //   default: false,
+  // },
+  // {
+  //   type: "input",
+  //   name: "hasTests",
+  //   message: "How do I test the application?",
+  //   when: (answers) => {
+  //     return answers.projectTest;
+  //   },
+  // },
   {
     type: "list",
     name: "license",
@@ -205,12 +205,48 @@ const readMeData = (projectAnswer) => {
   ${constructQuestion(gitHubUserName, email)}`;
 };
 
+const loopQuestion = async (question) => {
+  let inProgress = true;
+  const results = [];
+  while (inProgress) {
+    const answers = await inquirer.prompt(question);
+    results.push(answers);
+    const { quit } = await inquirer.prompt({
+      type: "confirm",
+      message: "do you want to quit?",
+      name: "quit",
+    });
+
+    if (quit) {
+      inProgress = false;
+    }
+  }
+
+  return results;
+};
+
 // start function
 const start = async () => {
+  let tests;
+
   const projectAnswer = await inquirer.prompt(questions);
-  console.log(projectAnswer);
+  const { projectTest } = await inquirer.prompt({
+    type: "confirm",
+    name: "projectTest",
+    message: "Do you have tests for this project?",
+    default: false,
+  });
+  if (projectTest) {
+    tests = await loopQuestion({
+      type: "input",
+      name: "hasTests",
+      message: "How do I test the application?",
+    });
+  }
+  console.log(tests);
+
   const generateReadme = readMeData(projectAnswer);
-  console.log(generateReadme);
+
   writeToFile("generated_readme.md", generateReadme);
 };
 
