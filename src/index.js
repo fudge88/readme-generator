@@ -128,18 +128,6 @@ ${contents.join("\n")}
 `;
 };
 
-// Table of Contents
-// const constructToc = ({ hasInstallScript, hasDirections, hasTests }) => {
-//   return `## Contents\n
-//   - [Description](#description)
-//   - ${hasInstallScript ? " - [Installation](#installation)n" : ""}
-//   - ${hasDirections ? " - [Directions](#directions)" : ""}
-//   - ${hasTests ? " - [Testing](#Testing)" : ""}
-//   - [License](#license)
-//   - [Contribution](#contribution)
-//   - [Questions](#questions)`;
-// };
-
 // project description
 const constructDesc = (projectDesc) => {
   return `## Description\n${projectDesc}`;
@@ -147,31 +135,35 @@ const constructDesc = (projectDesc) => {
 
 // project installation
 const constructInstall = (hasInstallScript) => {
-  return `## Installation
+  return hasInstallScript
+    ? `## Installation
   Follow these steps for installation: 
   \`\`\`
   ${hasInstallScript}
-  \`\`\``;
+  \`\`\``
+    : "";
 };
 
 // project directions
 const constructDirections = (hasDirections) => {
-  return `## Directions
+  return hasDirections
+    ? `## Directions
   To use this application you:
   \`\`\`
-  ${hasDirections};
-  \`\`\``;
+  ${hasDirections}
+  \`\`\``
+    : "";
 };
 
 // project tests
 const constructTest = (hasTests) => {
-  return `## Tests\n${hasTests}`;
+  return hasTests ? `## Tests\n${hasTests}` : "";
 };
 
 // project license
 const constructLicense = (license) => {
   return `## License\n
-  [MIT](https://img.shields.io/static/v1?label=${license}&message=Licence&color=<COLOR>)\n
+  ![${license}](https://img.shields.io/static/v1?label=${license}&message=Licence&color=<COLOR>)\n
   This project is licensed under the terms of the ${license} license`;
 };
 
