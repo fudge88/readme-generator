@@ -1,6 +1,6 @@
 // import inquirer
 const inquirer = require("inquirer");
-const fs = require("fs");
+const util = require("./util");
 
 //questions
 const questions = [
@@ -77,7 +77,7 @@ const questions = [
         short: "g",
       },
       {
-        name: "zLib License",
+        name: "zLib",
         value: "zlib",
         short: "z",
       },
@@ -100,34 +100,74 @@ const questions = [
   },
 ];
 
+// constructing the dynamic README.md
+// project title
 const constructTitle = (projectTitle) => {
-  return ` ${projectTitle}`;
-};
-const constructDesc = (projectDesc) => {
-  return `## Description \n ${projectDesc}`;
-};
-const constructInstall = (hasInstallScript) => {
-  return `## Installation \n ${hasInstallScript}`;
-};
-const constructDirections = (hasDirections) => {
-  return `## Directions \n ${hasDirections}`;
-};
-const constructTest = (hasTests) => {
-  return `## Tests \n ${hasTests}`;
-};
-const constructLicense = (license) => {
-  return `## License \n ${license}`;
-};
-const constructUserName = (gitHubUserName) => {
-  return `#### GitHub User Name: ${gitHubUserName}`;
-};
-const constructEmail = (email) => {
-  return `#### Email: ${email}`;
-};
-const constructContribution = (contribution) => {
-  return `## Contribution \n ${contribution}`;
+  return `# ${projectTitle}`;
 };
 
+// Table of Contents
+// const constructToc = ({ hasInstallScript, hasDirections, hasTests }) => {
+//   return `## Contents\n
+//   - [Description](#description)
+//   - ${hasInstallScript ? " - [Installation](#installation)n" : ""}
+//   - ${hasDirections ? " - [Directions](#directions)" : ""}
+//   - ${hasTests ? " - [Testing](#Testing)" : ""}
+//   - [License](#license)
+//   - [Contribution](#contribution)
+//   - [Questions](#questions)`;
+// };
+
+// project description
+const constructDesc = (projectDesc) => {
+  return `## Description\n${projectDesc}`;
+};
+
+// project installation
+const constructInstall = (hasInstallScript) => {
+  return `## Installation
+  Follow these steps for installation: 
+  \`\`\`
+  ${hasInstallScript}
+  \`\`\``;
+};
+
+// project directions
+const constructDirections = (hasDirections) => {
+  return `## Directions
+  To use this application you:
+  \`\`\`
+  ${hasDirections};
+  \`\`\``;
+};
+
+// project tests
+const constructTest = (hasTests) => {
+  return `## Tests\n${hasTests}`;
+};
+
+// project license
+const constructLicense = (license) => {
+  return `## License\n
+  [MIT](https://img.shields.io/static/v1?label=${license}&message=Licence&color=<COLOR>)\n
+  This project is licensed under the terms of the ${license} license`;
+};
+
+// project questions
+const constructQuestion = (gitHubUserName, email) => {
+  return `## Questions\n
+  If you have any questions about this project, or would like further information please contact me via:
+  Email: ${email}\n
+  GitHub User Name: ${gitHubUserName}`;
+};
+
+// project contributions
+const constructContribution = (contribution) => {
+  return `## Contribution
+  All contributions are welcomed, you can contribute to this repository by ${contribution}`;
+};
+
+// constructing the readme
 const readMeData = (projectAnswer) => {
   const {
     projectTitle,
@@ -146,25 +186,17 @@ const readMeData = (projectAnswer) => {
   ${constructDirections(hasDirections)}
   ${constructTest(hasTests)}
   ${constructLicense(license)}
-  ${constructUserName(gitHubUserName)}
-  ${constructEmail(email)}
-  ${constructContribution(contribution)}`;
+  ${constructContribution(contribution)}
+  ${constructQuestion(gitHubUserName, email)}`;
 };
 
+// start function
 const start = async () => {
   const projectAnswer = await inquirer.prompt(questions);
   console.log(projectAnswer);
   const generateReadme = readMeData(projectAnswer);
   console.log(generateReadme);
-  writeToFile("generated_readme.md", generateReadme);
-};
-
-const writeToFile = (filePath, data) => {
-  try {
-    fs.writeFileSync(filePath, data);
-  } catch (error) {
-    console.log(error.message);
-  }
+  util.writeToFile("generated_readme.md", generateReadme);
 };
 
 start();
