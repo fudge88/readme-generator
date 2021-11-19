@@ -100,11 +100,11 @@ const questions = [
   },
 ];
 
-const getOtherContents = ({ hasInstallScript, hasDirections, hasTests }) => {
+const getOtherContents = ({ hasInstallScript, hasDirections, tests }) => {
   const contents = [];
   if (hasInstallScript) contents.push("- [Installation](#installation)");
   if (hasDirections) contents.push("- [Usage](#usage)");
-  if (hasTests) contents.push("- [Tests](#tests)");
+  if (tests) contents.push("- [Tests](#tests)");
   return contents;
 };
 
@@ -114,10 +114,10 @@ const constructTitle = (projectTitle) => {
   return `# ${projectTitle}`;
 };
 
-const generateTableOfContents = (hasInstallScript, hasDirections, hasTests) => {
+const generateTableOfContents = (hasInstallScript, hasDirections, tests) => {
   const contents = [
     "- [Description](#description)",
-    ...getOtherContents(hasInstallScript, hasDirections, hasTests),
+    ...getOtherContents(hasInstallScript, hasDirections, tests),
     "- [Contributing](#contributing)",
     "- [License](#license)",
     "- [Question](#question)",
@@ -156,8 +156,13 @@ const constructDirections = (hasDirections) => {
 };
 
 // project tests
-const constructTest = (hasTests) => {
-  return hasTests ? `## Tests\n${hasTests}` : "";
+const constructTest = (tests) => {
+  return tests
+  `## Tests\n
+  for (let i = 0; i < tests.length; i++) {
+    console.log(tests[i].hasTests);
+    ${tests.hasTests}`
+  }
 };
 
 // project license
@@ -188,18 +193,18 @@ const readMeData = (projectAnswer) => {
     projectDesc,
     hasInstallScript,
     hasDirections,
-    hasTests,
     license,
     gitHubUserName,
     email,
     contribution,
+    tests,
   } = projectAnswer;
   return `${constructTitle(projectTitle)}
-  ${generateTableOfContents({ hasInstallScript, hasDirections, hasTests })}
+  ${generateTableOfContents({ hasInstallScript, hasDirections, tests })}
   ${constructDesc(projectDesc)}
   ${constructInstall(hasInstallScript)}
   ${constructDirections(hasDirections)}
-  ${constructTest(hasTests)}
+  ${constructTest(tests)}
   ${constructLicense(license)}
   ${constructContribution(contribution)}
   ${constructQuestion(gitHubUserName, email)}`;
@@ -244,6 +249,7 @@ const start = async () => {
     });
   }
   projectAnswer.tests = tests;
+  console.log(projectAnswer);
   const generateReadme = readMeData(projectAnswer);
   writeToFile("generated_readme.md", generateReadme);
 };
