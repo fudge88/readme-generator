@@ -157,13 +157,25 @@ const constructDirections = (hasDirections) => {
 
 // project tests
 const constructTest = (tests) => {
-  return tests
-  `## Tests\n
+  var string = `## Tests\n`;
   for (let i = 0; i < tests.length; i++) {
     console.log(tests[i].hasTests);
-    ${tests.hasTests}`
+    string += tests[i].hasTests + `\n`;
   }
+  return string;
 };
+
+//   if (tests){
+//     for (let i = 0; i < tests.length; i++) {
+//       //   console.log(tests[i].hasTests);
+//   }
+//   // return tests
+//   // `## Tests\n
+//   // for (let i = 0; i < tests.length; i++) {
+//   //   console.log(tests[i].hasTests);
+//   //   ${tests.hasTests}`
+//   // }
+// };
 
 // project license
 const constructLicense = (license) => {
@@ -175,7 +187,7 @@ const constructLicense = (license) => {
 // project questions
 const constructQuestion = (gitHubUserName, email) => {
   return `## Questions\n
-  If you have any questions about this project, or would like further information please contact me via:
+  If you have any questions about this project, or would like further information please contact me via:\n
   Email: ${email}\n
   GitHub User Name: ${gitHubUserName}`;
 };
@@ -199,12 +211,15 @@ const readMeData = (projectAnswer) => {
     contribution,
     tests,
   } = projectAnswer;
+
+  var testString = constructTest(tests);
+
   return `${constructTitle(projectTitle)}
   ${generateTableOfContents({ hasInstallScript, hasDirections, tests })}
   ${constructDesc(projectDesc)}
   ${constructInstall(hasInstallScript)}
   ${constructDirections(hasDirections)}
-  ${constructTest(tests)}
+  ${testString}
   ${constructLicense(license)}
   ${constructContribution(contribution)}
   ${constructQuestion(gitHubUserName, email)}`;
@@ -216,6 +231,7 @@ const loopQuestion = async (question) => {
   while (inProgress) {
     const answers = await inquirer.prompt(question);
     results.push(answers);
+    // results.push(answers.hasTests)
     const { quit } = await inquirer.prompt({
       type: "confirm",
       message: "do you want to quit?",
