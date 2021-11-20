@@ -1,109 +1,9 @@
 // import inquirer
 const inquirer = require("inquirer");
 const { writeToFile } = require("./util");
+const { questions } = require("./questions");
 
 //questions
-const questions = [
-  {
-    type: "input",
-    name: "projectTitle",
-    message: "What is your project title?",
-  },
-  {
-    type: "input",
-    name: "projectDesc",
-    message: "Please enter a description of your project?",
-  },
-  {
-    type: "list",
-    name: "license",
-    message: "Choose a license: ",
-    choices: [
-      {
-        name: "Academic Free License v3.0",
-        value: "academic",
-        short: "a",
-      },
-      {
-        name: "MIT",
-        value: "mit",
-        short: "m",
-      },
-      {
-        name: "GNU General Public License v2.0",
-        value: "general",
-        short: "g",
-      },
-      {
-        name: "zLib",
-        value: "zlib",
-        short: "z",
-      },
-    ],
-  },
-  {
-    type: "input",
-    name: "gitHubUserName",
-    message: "What is your github username",
-  },
-  {
-    type: "input",
-    name: "email",
-    message: "What is your email?",
-  },
-  {
-    type: "input",
-    name: "contribution",
-    message: "How can people contribute to this app?",
-  },
-
-  // compatibility testing table
-  {
-    type: "confirm",
-    name: "chrome",
-    message: "Did you have formatting errors on chrome?",
-  },
-  {
-    type: "confirm",
-    name: "firefox",
-    message: "Did you have formatting errors on Firefox?",
-  },
-  {
-    type: "confirm",
-    name: "explorer",
-    message: "Did you have formatting errors on Internet Explorer?",
-  },
-  {
-    type: "confirm",
-    name: "chromeLinks",
-    message: "Did your links work on chrome?",
-  },
-  {
-    type: "confirm",
-    name: "firefoxLinks",
-    message: "Did your links work on Firefox?",
-  },
-  {
-    type: "confirm",
-    name: "explorerLinks",
-    message: "Did your links work on Internet Explorer?",
-  },
-  {
-    type: "input",
-    name: "chromeNotes",
-    message: "Do you have notes to add for Chrome testing?",
-  },
-  {
-    type: "input",
-    name: "firefoxNotes",
-    message: "Do you have notes to add for FireFox testing?",
-  },
-  {
-    type: "input",
-    name: "explorerNotes",
-    message: "Do you have notes to add for Internet Explorer testing?",
-  },
-];
 
 const getOtherContents = ({ installation, usage, tests }) => {
   const contents = [];
@@ -180,13 +80,14 @@ ${usageSteps.hasUsage}
   }
 };
 
+// test table
 const constructTestingTable = (projectAnswer) => {
   return `## Testing\n
   <table>
 <tbody><tr>
 <th>Browser</th>
 <th>Working Links</th>
-<th>Formatting Errors</th>
+<th>Formatting Correctly</th>
 <th>Notes</th> 
 </tr>
 <tr>
@@ -210,7 +111,7 @@ const constructTestingTable = (projectAnswer) => {
 </tbody></table>`;
 };
 
-// project tests
+// further tests
 const constructTest = (tests) => {
   if (tests) {
     return `
@@ -276,6 +177,7 @@ const readMeData = (projectAnswer) => {
   ${constructQuestion(gitHubUserName, email)}`;
 };
 
+// looping prompts
 const loopQuestion = async (question) => {
   let inProgress = true;
   const results = [];
@@ -303,6 +205,7 @@ const start = async () => {
   let usage;
 
   const projectAnswer = await inquirer.prompt(questions);
+
   // test questions
   const { projectTest } = await inquirer.prompt({
     type: "confirm",
@@ -319,7 +222,6 @@ const start = async () => {
   }
 
   // installation questions
-
   const { installScript } = await inquirer.prompt({
     type: "confirm",
     name: "installScript",
@@ -335,7 +237,6 @@ const start = async () => {
   }
 
   // Usage questions
-
   const { projectUsage } = await inquirer.prompt({
     type: "confirm",
     name: "projectUsage",
