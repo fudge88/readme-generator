@@ -262,15 +262,6 @@ const readMeData = (projectAnswer) => {
     email,
     contribution,
     tests,
-    chrome,
-    firefox,
-    explorer,
-    chromeLinks,
-    firefoxLinks,
-    explorerLinks,
-    chromeNotes,
-    firefoxNotes,
-    explorerNotes,
   } = projectAnswer;
 
   return `${constructTitle(projectTitle, license)}
