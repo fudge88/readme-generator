@@ -56,6 +56,53 @@ const questions = [
     name: "contribution",
     message: "How can people contribute to this app?",
   },
+
+  // compatibility testing table
+  {
+    type: "confirm",
+    name: "chrome",
+    message: "Did you have formatting errors on chrome?",
+  },
+  {
+    type: "confirm",
+    name: "firefox",
+    message: "Did you have formatting errors on Firefox?",
+  },
+  {
+    type: "confirm",
+    name: "explorer",
+    message: "Did you have formatting errors on Internet Explorer?",
+  },
+  {
+    type: "confirm",
+    name: "chromeLinks",
+    message: "Did your links work on chrome?",
+  },
+  {
+    type: "confirm",
+    name: "firefoxLinks",
+    message: "Did your links work on Firefox?",
+  },
+  {
+    type: "confirm",
+    name: "explorerLinks",
+    message: "Did your links work on Internet Explorer?",
+  },
+  {
+    type: "input",
+    name: "chromeNotes",
+    message: "Do you have notes to add for Chrome testing?",
+  },
+  {
+    type: "input",
+    name: "firefoxNotes",
+    message: "Do you have notes to add for FireFox testing?",
+  },
+  {
+    type: "input",
+    name: "explorerNotes",
+    message: "Do you have notes to add for Internet Explorer testing?",
+  },
 ];
 
 const getOtherContents = ({ installation, usage, tests }) => {
@@ -133,11 +180,41 @@ ${usageSteps.hasUsage}
   }
 };
 
+const constructTestingTable = (projectAnswer) => {
+  return `## Testing\n
+  <table>
+<tbody><tr>
+<th>Browser</th>
+<th>Working Links</th>
+<th>Formatting Errors</th>
+<th>Notes</th> 
+</tr>
+<tr>
+<th>Chrome</th>
+<td>${projectAnswer.chromeLinks}</td>
+<td>${projectAnswer.chrome}</td>
+<td>${projectAnswer.chromeNotes}</td>
+</tr>
+<tr>
+<th>FireFox</th>
+<td>${projectAnswer.firefoxLinks}</td>
+<td>${projectAnswer.firefox}</td>
+<td>${projectAnswer.firefoxNotes}</td>
+</tr>
+<tr>
+<th>Internet Explorer</th>
+<td>${projectAnswer.explorerLinks}</td>
+<td>${projectAnswer.explorer}</td>
+<td>${projectAnswer.explorerNotes}</td>
+</tr>
+</tbody></table>`;
+};
+
 // project tests
 const constructTest = (tests) => {
   if (tests) {
     return `
-## Tests
+## Further Testing
 
 ${tests
   .map(function (testSteps) {
@@ -185,6 +262,15 @@ const readMeData = (projectAnswer) => {
     email,
     contribution,
     tests,
+    chrome,
+    firefox,
+    explorer,
+    chromeLinks,
+    firefoxLinks,
+    explorerLinks,
+    chromeNotes,
+    firefoxNotes,
+    explorerNotes,
   } = projectAnswer;
 
   return `${constructTitle(projectTitle, license)}
@@ -192,6 +278,7 @@ const readMeData = (projectAnswer) => {
   ${constructDesc(projectDesc)}
   ${constructInstall(installation)}
   ${constructDirections(usage)}
+  ${constructTestingTable(projectAnswer)}
   ${constructTest(tests)}
   ${constructLicense(license)}
   ${constructContribution(contribution)}
@@ -229,7 +316,7 @@ const start = async () => {
   const { projectTest } = await inquirer.prompt({
     type: "confirm",
     name: "projectTest",
-    message: "Do you have tests for this project?",
+    message: "Do you have more tests for this project?",
     default: false,
   });
   if (projectTest) {
@@ -240,7 +327,7 @@ const start = async () => {
     });
   }
 
-  // installation
+  // installation questions
 
   const { installScript } = await inquirer.prompt({
     type: "confirm",
@@ -256,18 +343,19 @@ const start = async () => {
     });
   }
 
-  // Directions/Usage
+  // Usage questions
+
   const { projectUsage } = await inquirer.prompt({
     type: "confirm",
     name: "projectUsage",
-    message: "Do you have directions for the use of this project?",
+    message: "So you have instructions on how to use the project?",
     default: false,
   });
   if (projectUsage) {
     usage = await loopQuestion({
       type: "input",
       name: "hasUsage",
-      message: "What are the directions? or How would I use your project?",
+      message: "What are the instruction on how to your project?",
     });
   }
 
