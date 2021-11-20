@@ -42,20 +42,6 @@ const questions = [
       return answers.projectDirections;
     },
   },
-  // {
-  //   type: "confirm",
-  //   name: "projectTest",
-  //   message: "Do you have tests for this project?",
-  //   default: false,
-  // },
-  // {
-  //   type: "input",
-  //   name: "hasTests",
-  //   message: "How do I test the application?",
-  //   when: (answers) => {
-  //     return answers.projectTest;
-  //   },
-  // },
   {
     type: "list",
     name: "license",
@@ -103,7 +89,7 @@ const questions = [
 const getOtherContents = ({ hasInstallScript, hasDirections, tests }) => {
   const contents = [];
   if (hasInstallScript) contents.push("- [Installation](#installation)");
-  if (hasDirections) contents.push("- [Usage](#usage)");
+  if (hasDirections) contents.push("- [Directions](#directions)");
   if (tests) contents.push("- [Tests](#tests)");
   return contents;
 };
@@ -114,6 +100,7 @@ const constructTitle = (projectTitle) => {
   return `# ${projectTitle}`;
 };
 
+// table of contents
 const generateTableOfContents = (hasInstallScript, hasDirections, tests) => {
   const contents = [
     "- [Description](#description)",
@@ -122,7 +109,6 @@ const generateTableOfContents = (hasInstallScript, hasDirections, tests) => {
     "- [License](#license)",
     "- [Question](#question)",
   ];
-
   return `## Table of Contents\n
 ${contents.join("\n")}
 `;
@@ -136,8 +122,8 @@ const constructDesc = (projectDesc) => {
 // project installation
 const constructInstall = (hasInstallScript) => {
   return hasInstallScript
-    ? `## Installation
-  Follow these steps for installation: 
+    ? `## Installation\n
+  Follow these steps for installation:\n 
   \`\`\`
   ${hasInstallScript}
   \`\`\``
@@ -157,25 +143,20 @@ const constructDirections = (hasDirections) => {
 
 // project tests
 const constructTest = (tests) => {
-  var string = `## Tests\n`;
-  for (let i = 0; i < tests.length; i++) {
-    console.log(tests[i].hasTests);
-    string += tests[i].hasTests + `\n`;
-  }
-  return string;
-};
+  if (tests) {
+    let string = `## Tests\n`;
+    tests.map(({ hasTests }) => {
+      return (string += `\n${hasTests}`);
+    });
 
-//   if (tests){
-//     for (let i = 0; i < tests.length; i++) {
-//       //   console.log(tests[i].hasTests);
-//   }
-//   // return tests
-//   // `## Tests\n
-//   // for (let i = 0; i < tests.length; i++) {
-//   //   console.log(tests[i].hasTests);
-//   //   ${tests.hasTests}`
-//   // }
-// };
+    // for (let i = 0; i < tests.length; i++) {
+    //   string += `\n${tests[i].hasTests}\n`;
+    // }
+    return string;
+  } else {
+    return "";
+  }
+};
 
 // project license
 const constructLicense = (license) => {
@@ -188,8 +169,8 @@ const constructLicense = (license) => {
 const constructQuestion = (gitHubUserName, email) => {
   return `## Questions\n
   If you have any questions about this project, or would like further information please contact me via:\n
-  Email: ${email}\n
-  GitHub User Name: ${gitHubUserName}`;
+  GitHub: ${gitHubUserName}\n
+  Email: ${email}\n`;
 };
 
 // project contributions
@@ -212,7 +193,7 @@ const readMeData = (projectAnswer) => {
     tests,
   } = projectAnswer;
 
-  var testString = constructTest(tests);
+  let testString = constructTest(tests);
 
   return `${constructTitle(projectTitle)}
   ${generateTableOfContents({ hasInstallScript, hasDirections, tests })}
@@ -231,7 +212,6 @@ const loopQuestion = async (question) => {
   while (inProgress) {
     const answers = await inquirer.prompt(question);
     results.push(answers);
-    // results.push(answers.hasTests)
     const { quit } = await inquirer.prompt({
       type: "confirm",
       message: "do you want to quit?",
