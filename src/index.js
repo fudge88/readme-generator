@@ -15,20 +15,6 @@ const questions = [
     message: "Please enter a description of your project?",
   },
   {
-    type: "confirm",
-    name: "projectDirections",
-    message: "Do you have directions for the use of this project?",
-    default: false,
-  },
-  {
-    type: "input",
-    name: "hasDirections",
-    message: "What are the directions? or How would I use your project?",
-    when: (answers) => {
-      return answers.projectDirections;
-    },
-  },
-  {
     type: "list",
     name: "license",
     message: "Choose a license: ",
@@ -72,10 +58,10 @@ const questions = [
   },
 ];
 
-const getOtherContents = ({ hasInstallScript, hasDirections, tests }) => {
+const getOtherContents = ({ installation, usage, tests }) => {
   const contents = [];
-  if (hasInstallScript) contents.push("- [Installation](#installation)");
-  if (hasDirections) contents.push("- [Directions](#directions)");
+  if (installation) contents.push("- [Installation](#installation)");
+  if (usage) contents.push("- [Usage](#usage)");
   if (tests) contents.push("- [Tests](#tests)");
   return contents;
 };
@@ -87,10 +73,10 @@ const constructTitle = (projectTitle, license) => {
 };
 
 // table of contents
-const generateTableOfContents = (hasInstallScript, hasDirections, tests) => {
+const generateTableOfContents = (installation, usage, tests) => {
   const contents = [
     "- [Description](#description)",
-    ...getOtherContents(hasInstallScript, hasDirections, tests),
+    ...getOtherContents(installation, usage, tests),
     "- [Contributing](#contributing)",
     "- [License](#license)",
     "- [Question](#question)",
@@ -103,7 +89,8 @@ ${contents.join("\n")}
 // project description
 const constructDesc = (projectDesc) => {
   return `
-## Description\n
+## Description
+
 ${projectDesc}`;
 };
 
@@ -128,21 +115,29 @@ ${installSteps.hasInstallScript}
 };
 
 // project directions
-const constructDirections = (hasDirections) => {
-  return hasDirections
-    ? `## Directions
-  To use this application you:
-  \`\`\`
-  ${hasDirections}
-  \`\`\``
-    : "";
+const constructDirections = (usage) => {
+  if (usage) {
+    return `
+## Usage
+
+${usage
+  .map(function (usageSteps) {
+    return `
+\`\`\`
+${usageSteps.hasUsage}
+\`\`\``;
+  })
+  .join("\n")}`;
+  } else {
+    return "";
+  }
 };
 
 // project tests
 const constructTest = (tests) => {
   if (tests) {
     return `
-## Tests\n
+## Tests
 
 ${tests
   .map(function (testSteps) {
@@ -184,7 +179,7 @@ const readMeData = (projectAnswer) => {
     projectTitle,
     projectDesc,
     installation,
-    hasDirections,
+    usage,
     license,
     gitHubUserName,
     email,
@@ -193,10 +188,10 @@ const readMeData = (projectAnswer) => {
   } = projectAnswer;
 
   return `${constructTitle(projectTitle, license)}
-  ${generateTableOfContents({ installation, hasDirections, tests })}
+  ${generateTableOfContents({ installation, usage, tests })}
   ${constructDesc(projectDesc)}
   ${constructInstall(installation)}
-  ${constructDirections(hasDirections)}
+  ${constructDirections(usage)}
   ${constructTest(tests)}
   ${constructLicense(license)}
   ${constructContribution(contribution)}
@@ -227,6 +222,7 @@ const loopQuestion = async (question) => {
 const start = async () => {
   let tests;
   let installation;
+  let usage;
 
   const projectAnswer = await inquirer.prompt(questions);
   // test questions
@@ -260,8 +256,24 @@ const start = async () => {
     });
   }
 
+  // Directions/Usage
+  const { projectUsage } = await inquirer.prompt({
+    type: "confirm",
+    name: "projectUsage",
+    message: "Do you have directions for the use of this project?",
+    default: false,
+  });
+  if (projectUsage) {
+    usage = await loopQuestion({
+      type: "input",
+      name: "hasUsage",
+      message: "What are the directions? or How would I use your project?",
+    });
+  }
+
   projectAnswer.tests = tests;
   projectAnswer.installation = installation;
+  projectAnswer.usage = usage;
   console.log(projectAnswer);
   const generateReadme = readMeData(projectAnswer);
   writeToFile("generated_readme.md", generateReadme);

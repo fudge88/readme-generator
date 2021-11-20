@@ -1,7 +1,8 @@
-# 123 ![academic](https://img.shields.io/static/v1?label=academic&message=Licence&color=<COLOR>)
+# my project title ![general](https://img.shields.io/static/v1?label=general&message=Licence&color=<COLOR>)
   ## Table of Contents
 
 - [Description](#description)
+- [Usage](#usage)
 - [Tests](#tests)
 - [Contributing](#contributing)
 - [License](#license)
@@ -10,43 +11,40 @@
   
 ## Description
 
-123
+this is a short description of my project
   
-## Installation
-
-Follow these steps for installation:
-
-
-```
-1
-```
-
-```
-2
-```
   
+## Usage
+
+
+```
+undefined
+```
+
+```
+undefined
+```
   
 ## Tests
 
 
+```
+step1
+```
 
 ```
-1
-```
-
-```
-2
+step2
 ```
   ## License
 
   
-  This project is licensed under the terms of the academic license.
+  This project is licensed under the terms of the general license.
   ## Contribution
-  All contributions are welcomed, you can contribute to this repository by 123
+  All contributions are welcomed, you can contribute to this repository by yes by forking it 
   ## Questions
 
   If you have any questions about this project, or would like further information please contact me via:
 
-  GitHub: 123
+  GitHub: fuge88
 
-  Email: 123
+  Email: f.akhlaw
