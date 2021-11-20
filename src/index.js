@@ -16,20 +16,6 @@ const questions = [
   },
   {
     type: "confirm",
-    name: "installScript",
-    message: "Do you have an installation Script?",
-    default: false,
-  },
-  {
-    type: "input",
-    name: "hasInstallScript",
-    message: "What is the installation script?",
-    when: (answers) => {
-      return answers.installScript;
-    },
-  },
-  {
-    type: "confirm",
     name: "projectDirections",
     message: "Do you have directions for the use of this project?",
     default: false,
@@ -96,8 +82,8 @@ const getOtherContents = ({ hasInstallScript, hasDirections, tests }) => {
 
 // constructing the dynamic README.md
 // project title
-const constructTitle = (projectTitle) => {
-  return `# ${projectTitle}`;
+const constructTitle = (projectTitle, license) => {
+  return `# ${projectTitle} ![${license}](https://img.shields.io/static/v1?label=${license}&message=Licence&color=<COLOR>)`;
 };
 
 // table of contents
@@ -122,14 +108,23 @@ ${projectDesc}`;
 };
 
 // project installation
-const constructInstall = (hasInstallScript) => {
-  return hasInstallScript
-    ? `## Installation\n
-  Follow these steps for installation:\n 
-  \`\`\`
-  ${hasInstallScript}
-  \`\`\``
-    : "";
+const constructInstall = (installation) => {
+  if (installation) {
+    return `
+## Installation\n
+Follow these steps for installation:
+
+${installation
+  .map(function (installSteps) {
+    return `
+\`\`\`
+${installSteps.hasInstallScript}
+\`\`\``;
+  })
+  .join("\n")}`;
+  } else {
+    return "";
+  }
 };
 
 // project directions
@@ -165,8 +160,8 @@ ${testSteps.hasTests}
 // project license
 const constructLicense = (license) => {
   return `## License\n
-  ![${license}](https://img.shields.io/static/v1?label=${license}&message=Licence&color=<COLOR>)\n
-  This project is licensed under the terms of the ${license} license`;
+  
+  This project is licensed under the terms of the ${license} license.`;
 };
 
 // project questions
@@ -188,7 +183,7 @@ const readMeData = (projectAnswer) => {
   const {
     projectTitle,
     projectDesc,
-    hasInstallScript,
+    installation,
     hasDirections,
     license,
     gitHubUserName,
@@ -197,14 +192,12 @@ const readMeData = (projectAnswer) => {
     tests,
   } = projectAnswer;
 
-  let testString = constructTest(tests);
-
-  return `${constructTitle(projectTitle)}
-  ${generateTableOfContents({ hasInstallScript, hasDirections, tests })}
+  return `${constructTitle(projectTitle, license)}
+  ${generateTableOfContents({ installation, hasDirections, tests })}
   ${constructDesc(projectDesc)}
-  ${constructInstall(hasInstallScript)}
+  ${constructInstall(installation)}
   ${constructDirections(hasDirections)}
-  ${testString}
+  ${constructTest(tests)}
   ${constructLicense(license)}
   ${constructContribution(contribution)}
   ${constructQuestion(gitHubUserName, email)}`;
@@ -233,8 +226,10 @@ const loopQuestion = async (question) => {
 // start function
 const start = async () => {
   let tests;
+  let installation;
 
   const projectAnswer = await inquirer.prompt(questions);
+  // test questions
   const { projectTest } = await inquirer.prompt({
     type: "confirm",
     name: "projectTest",
@@ -248,7 +243,25 @@ const start = async () => {
       message: "How do I test the application?",
     });
   }
+
+  // installation
+
+  const { installScript } = await inquirer.prompt({
+    type: "confirm",
+    name: "installScript",
+    message: "Do you have an installation Script?",
+    default: false,
+  });
+  if (installScript) {
+    installation = await loopQuestion({
+      type: "input",
+      name: "hasInstallScript",
+      message: "What is the installation script?",
+    });
+  }
+
   projectAnswer.tests = tests;
+  projectAnswer.installation = installation;
   console.log(projectAnswer);
   const generateReadme = readMeData(projectAnswer);
   writeToFile("generated_readme.md", generateReadme);
