@@ -116,7 +116,9 @@ ${contents.join("\n")}
 
 // project description
 const constructDesc = (projectDesc) => {
-  return `## Description\n${projectDesc}`;
+  return `
+## Description\n
+${projectDesc}`;
 };
 
 // project installation
@@ -144,15 +146,17 @@ const constructDirections = (hasDirections) => {
 // project tests
 const constructTest = (tests) => {
   if (tests) {
-    let string = `## Tests\n`;
-    tests.map(({ hasTests }) => {
-      return (string += `\n${hasTests}`);
-    });
+    return `
+## Tests\n
 
-    // for (let i = 0; i < tests.length; i++) {
-    //   string += `\n${tests[i].hasTests}\n`;
-    // }
-    return string;
+${tests
+  .map(function (testSteps) {
+    return `
+\`\`\`
+${testSteps.hasTests}
+\`\`\``;
+  })
+  .join("\n")}`;
   } else {
     return "";
   }
