@@ -1,8 +1,7 @@
-# Professional `README.md` Generator  ![mit](https://img.shields.io/static/v1?label=mit&message=Licence&color=<COLOR>)
+# readme generator ![mit](https://img.shields.io/static/v1?label=mit&message=Licence&color=<COLOR>)
   ## Table of Contents
 
 - [Description](#description)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Tests](#tests)
 - [Contributing](#contributing)
@@ -12,22 +11,22 @@
   
 ## Description
 
-A command-line application that dynamically generates a professional `README.md` file.
+An application that allows users to interact with the CLI to generate an readme file
   
-## Installation
-
-Follow these steps for installation:
-
-
-```
-npm install --save
-```
   
 ## Usage
 
 
 ```
-Clone teh repository and download teh dependencies as required. Then npm run start
+step 1
+```
+
+```
+step 2
+```
+
+```
+step 3
 ```
   ## Testing
 
@@ -41,20 +40,20 @@ Clone teh repository and download teh dependencies as required. Then npm run sta
 <tr>
 <th>Chrome</th>
 <td>true</td>
-<td>false</td>
-<td>all worked well</td>
+<td>true</td>
+<td>chorme</td>
 </tr>
 <tr>
 <th>FireFox</th>
-<td>true</td>
-<td>true</td>
-<td>sizing issues</td>
+<td>false</td>
+<td>false</td>
+<td>firefox</td>
 </tr>
 <tr>
 <th>Internet Explorer</th>
 <td>true</td>
 <td>true</td>
-<td>worked fine</td>
+<td>IE</td>
 </tr>
 </tbody></table>
   
@@ -62,30 +61,22 @@ Clone teh repository and download teh dependencies as required. Then npm run sta
 
 
 ```
-Run the application 
+step 1
 ```
 
 ```
-Answer the questions chosing your options accordingly
-```
-
-```
-If in a loop, try quitting by selecting Y
-```
-
-```
-if this loop break and moved onto the next question then it works
+step 2
 ```
   ## License
 
   
   This project is licensed under the terms of the mit license.
   ## Contribution
-  All contributions are welcomed, you can contribute to this repository by Create a personal fork of the project on Github.
+  All contributions are welcomed, you can contribute to this repository by users are able to fork or clone this repository, and add value as they deem suitable.
   ## Questions
 
   If you have any questions about this project, or would like further information please contact me via:
 
-  GitHub: fudge88
+  GitHub: github username
 
-  Email: akhlaq.fahra@gmail.com
+  Email: username@outlook.com

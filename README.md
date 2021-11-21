@@ -10,6 +10,8 @@ This app allows the user to quickly and easily create a `README.md` file by usin
 
 The answers are collected and dynamically generates a professional `README.md` file for the user. Thus allowing user to devote more time to working on the project, opposed to creating and formatting documentation in 'markdown'.
 
+#### A walk-though video for the app can be viewed [here.](https://drive.google.com/drive/folders/1Z3-xUghfRkOGizXHfOQO7X6_CAET0kaY?usp=sharing)
+
 ![portfolio demo](./assets/img/questions.gif)
 
 ## User Story
@@ -115,6 +117,8 @@ Inquirer is an NPM package that provides an easy way to capture user input in yo
 [NPM Inquirer](https://www.npmjs.com/package/inquirer)
 
 ## License
+
+![MIT](https://img.shields.io/static/v1?label=MIT&message=License&color=<COLOR>)
 
 This project is licensed under the terms of the MIT license.
 
