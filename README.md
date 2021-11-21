@@ -4,7 +4,9 @@ A command-line application that dynamically generates a professional `README.md`
 
 ## Summary
 
-This app allows the user to quickly and easily create a `README.md` file by using a command-line application. The answers are collected and dynamically generates a professional `README.md` file for the user. Thus allowing user to devote more time to working on the project, opposed to creating and formatting documentation in 'markdown'.
+This app allows the user to quickly and easily create a `README.md` file by using a command-line application.
+
+The answers are collected and dynamically generates a professional `README.md` file for the user. Thus allowing user to devote more time to working on the project, opposed to creating and formatting documentation in 'markdown'.
 
 ![portfolio demo](./assets/)
 
@@ -38,7 +40,51 @@ THEN I am taken to the corresponding section of the README
 
 ## Installation Instructions:
 
+You are able to clone this repository, by clicking [here](https://github.com/fudge88/readme-generator) and then clicking on the `code` button. Select how you would like to clone the repository.
+
+If you have your SSH keys set up, you are able to copy the link from the drop down and paste the following into your terminal application:
+
+```
+git clone git@github.com:fudge88/readme-generator.git
+```
+
+Then change your directory so you are now in your newly cloned project and then open the code in your chosen source-code editor.
+
+You need to install all dependencies that are listed in the `package.json` file:
+
+```
+npm install --save
+```
+
+Check to see that the following code is in the `package.json`, this will ensure npm to 'start' the application from your entry file
+
+```
+"start": node src/index.js
+```
+
 ## How to run the application:
+
+To run the start script, use the following code in the terminal.
+
+```
+npm run start
+```
+
+This should start the application, and you will be prompted with questions in the terminal. Once you have answered the questions, you will see a message of 'success' appear in the terminal and a dynamically generated 'generated_readme.md' file will appear in the root directory.
+
+You can use the following code to save your changes:
+
+```
+git add .
+```
+
+```
+git commit
+```
+
+```
+git push
+```
 
 ## Tools Used:
 
@@ -50,7 +96,7 @@ THEN I am taken to the corresponding section of the README
 - JavaScript
 - JQuery
 
-#### npm Inquirer:
+#### NPM Inquirer:
 
 Inquirer is an NPM package that provides an easy way to capture user input in your Node. js command line interface applications. It provides several methods for asking questions and returning answers from the user that can be accessed by a . then promise function. In this project i have chosen to use async and await in various places to allow the smooth running of the app, but awaiting the completion of promises.
 
