@@ -254,7 +254,6 @@ const start = async () => {
   projectAnswer.tests = tests;
   projectAnswer.installation = installation;
   projectAnswer.usage = usage;
-  console.log(projectAnswer);
   const generateReadme = readMeData(projectAnswer);
   writeToFile("generated_readme.md", generateReadme);
 };

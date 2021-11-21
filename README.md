@@ -2,13 +2,15 @@
 
 A command-line application that dynamically generates a professional `README.md` file.
 
+![portfolio demo](./assets/img/readme.gif)
+
 ## Summary
 
 This app allows the user to quickly and easily create a `README.md` file by using a command-line application.
 
 The answers are collected and dynamically generates a professional `README.md` file for the user. Thus allowing user to devote more time to working on the project, opposed to creating and formatting documentation in 'markdown'.
 
-![portfolio demo](./assets/)
+![portfolio demo](./assets/img/questions.gif)
 
 ## User Story
 
@@ -70,7 +72,11 @@ To run the start script, use the following code in the terminal.
 npm run start
 ```
 
-This should start the application, and you will be prompted with questions in the terminal. Once you have answered the questions, you will see a message of 'success' appear in the terminal and a dynamically generated 'generated_readme.md' file will appear in the root directory.
+This should start the application, and you will be prompted with questions in the terminal.
+
+![portfolio demo](./assets/img/inquierer.png)
+
+Once you have answered the questions, you will see a message of 'success' appear in the terminal and a dynamically generated 'generated_readme.md' file will appear in the root directory.
 
 You can use the following code to save your changes:
 
